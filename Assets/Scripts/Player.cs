@@ -11,7 +11,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float attackCooldown;
     private Rigidbody2D playerRB;
     private bool canJump;
-    bool turned;
+    [SerializeField] bool turned;
 
     //Attack
     public bool attackUnlocked;
@@ -96,12 +96,10 @@ public class Player : MonoBehaviour
         if (turned)
         {
             weaponGO.transform.eulerAngles = new Vector3(0, 0, -288);
-            weaponGO.transform.position = new Vector3(transform.position.x-1, transform.position.y, transform.position.z);
         }
-        else
+        else if (!turned)
         {
             weaponGO.transform.eulerAngles = new Vector3(0, 0, -80);
-            weaponGO.transform.position = new Vector3(transform.position.x + 1, transform.position.y, transform.position.z);
 
         }
         if (Input.GetKeyDown(KeyCode.Mouse0) && canAttack)
@@ -113,7 +111,14 @@ public class Player : MonoBehaviour
     IEnumerator Attack()
     {
         canAttack = false;
-        attackAnimator.Play("Attack");
+        if (turned)
+        {
+            attackAnimator.Play("AttackLeft");
+        }
+        else
+        {
+            attackAnimator.Play("AttackRight");
+        }
         yield return new WaitForSeconds(attackCooldown);
         canAttack = true;
     }
