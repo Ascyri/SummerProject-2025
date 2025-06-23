@@ -2,26 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : Entities
 {
     //Movement
-    [SerializeField] private float movementSpeed;
     [SerializeField] private float jumpSpeed;
     [SerializeField] private float maxVelocity;
-    [SerializeField] private float attackCooldown;
-    private Rigidbody2D playerRB;
     private bool canJump;
     [SerializeField] bool turned;
 
     //Attack
     public bool attackUnlocked;
+    [SerializeField] private float attackCooldown;
     [SerializeField] GameObject weaponGO;
     [SerializeField] private Animator attackAnimator;
-    bool canAttack = true;
     // Start is called before the first frame update
     void Start()
     {
-        playerRB = GetComponent<Rigidbody2D>();
+        base.rb = GetComponent<Rigidbody2D>();
         //attackAnimator = GetComponentInChildren<Animator>();
     }
 
@@ -36,35 +33,35 @@ public class Player : MonoBehaviour
     }
     void TurnChecker()
     {
-        if (playerRB.velocity.x < 0)
+        if (rb.velocity.x < 0)
         {
             turned = true;
         }
-        else if (playerRB.velocity.x > 0)
+        else if (rb.velocity.x > 0)
         {
             turned = false;
         }
     }
     private void VelocityLimiter()
     {
-        if (playerRB.velocity.x >= maxVelocity)
+        if (rb.velocity.x >= maxVelocity)
         {
-            playerRB.velocity = new Vector2(maxVelocity, playerRB.velocity.y);
+            rb.velocity = new Vector2(maxVelocity, rb.velocity.y);
         }
-        if (playerRB.velocity.x <= -maxVelocity)
+        if (rb.velocity.x <= -maxVelocity)
         {
-            playerRB.velocity = new Vector2(-maxVelocity, playerRB.velocity.y);
+            rb.velocity = new Vector2(-maxVelocity, rb.velocity.y);
         }
     }
     private void Movement()
     {
         if (Input.GetKey(KeyCode.D))
         {
-            playerRB.AddForce(Vector2.right * movementSpeed * Time.deltaTime);
+            rb.AddForce(Vector2.right * movementSpeed * Time.deltaTime);
         }
         if (Input.GetKey(KeyCode.A))
         {
-            playerRB.AddForce(Vector2.left * movementSpeed * Time.deltaTime);
+            rb.AddForce(Vector2.left * movementSpeed * Time.deltaTime);
         }
     }
 
@@ -72,7 +69,7 @@ public class Player : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Space) && canJump)
         {
-            playerRB.AddForce(Vector2.up * jumpSpeed);
+            rb.AddForce(Vector2.up * jumpSpeed);
             canJump = false;
         }
     }

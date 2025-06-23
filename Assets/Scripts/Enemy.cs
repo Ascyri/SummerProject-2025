@@ -2,32 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class Enemy : Entities
 {
-    [SerializeField] float movementSpeed;
-    [SerializeField] int maxhealth;
-    [SerializeField] int currenthealth;
-    Rigidbody2D enemyRB;
-    Weapon weaponScript;
-
+    //[SerializeField] float damageTime;
+    
+    SpriteRenderer enemySR;
+    //[SerializeField] Color normalColor;
+    //[SerializeField] Color damageFlashColor;
+    //[SerializeField] float damageFlashIntervals;
+    protected Weapon weaponScript;
+    
+    GameObject playerObject;
+    float timeToWait;
     // Start is called before the first frame update
     void Start()
     {
         currenthealth = maxhealth;
     }
-
-    // Update is called once per frame
-    void Update()
+    void DetectPlayer()
     {
-        
+
+
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.tag == "weapon")
-        {
-            weaponScript = collision.gameObject.GetComponent<Weapon>();
-            currenthealth -= weaponScript.playerWeaponDamage;
-        }
-    }
 }
