@@ -17,6 +17,8 @@ public class Entities : MonoBehaviour
     [SerializeField] protected Rigidbody2D rb;
     protected bool canAttack = true;
 
+    [SerializeField]GameObject lootObject;
+
     float timeToWait;
     void Start()
     {
@@ -24,14 +26,16 @@ public class Entities : MonoBehaviour
     }
 
     
-    protected IEnumerator TakeDamage(int damageAmount)
+    protected IEnumerator TakeDamage(int damageAmount, int currencyDropped)
     {
+        Debug.Log(gameObject.name +" Took damage");
         canTakeDamage = false;
         currenthealth -= damageAmount;
 
         if (currenthealth <= 0)
         {
-            Destroy(gameObject);
+            Death(currencyDropped);
+            
         }
         else
         {
@@ -66,5 +70,17 @@ public class Entities : MonoBehaviour
     IEnumerator Wait()
     {
         yield return new WaitForSeconds(timeToWait);
+    }
+
+    protected void Death(int currencyDropped)
+    {
+        DropItem(currencyDropped);
+        Destroy(gameObject);
+
+    }
+    protected void DropItem(int currencyDropped)
+    {
+        Instantiate(lootObject, transform.position, Quaternion.identity);
+            
     }
 }

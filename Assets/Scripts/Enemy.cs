@@ -5,7 +5,7 @@ using UnityEngine;
 public class Enemy : Entities
 {
     //[SerializeField] float damageTime;
-    
+    [SerializeField] protected int dropAmount;
     SpriteRenderer enemySR;
     //[SerializeField] Color normalColor;
     //[SerializeField] Color damageFlashColor;
@@ -13,7 +13,7 @@ public class Enemy : Entities
     protected Weapon weaponScript;
     
     GameObject playerObject;
-    float timeToWait;
+    //float timeToWait;
     // Start is called before the first frame update
     void Start()
     {

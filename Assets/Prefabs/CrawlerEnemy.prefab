@@ -78,7 +78,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -9095717837082945937, guid: 207ee8102dd4143d288186ef0be518ee, type: 3}
-  m_Color: {r: 0.78431374, g: 0.0034709943, b: 0.0034709943, a: 1}
+  m_Color: {r: 0.24528301, g: 0.082146674, b: 0.082146674, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -101,12 +101,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementSpeed: 5
-  damageTime: 0.5
   maxhealth: 5
   currenthealth: 0
-  normalColor: {r: 0.7843138, g: 0.003921569, b: 0.003921569, a: 1}
-  damageFlashColor: {r: 0.39215687, g: 0.003921569, b: 0.003921569, a: 1}
-  damageFlashIntervals: 0.1
+  spriteRenderer: {fileID: 0}
+  normalColor: {r: 0.34901962, g: 0, b: 0, a: 1}
+  damagedColor: {r: 0.24705884, g: 0.08235294, b: 0.08235294, a: 0}
+  rb: {fileID: 0}
 --- !u!70 &4918748186918759239
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

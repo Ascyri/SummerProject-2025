@@ -15,7 +15,9 @@ public class Player : Entities
     [SerializeField] private float attackCooldown;
     [SerializeField] GameObject weaponGO;
     [SerializeField] private Animator attackAnimator;
-    // Start is called before the first frame update
+
+    public int currencyHeld;
+
     void Start()
     {
         base.rb = GetComponent<Rigidbody2D>();
