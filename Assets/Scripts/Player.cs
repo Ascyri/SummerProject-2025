@@ -5,11 +5,13 @@ using UnityEngine;
 public class Player : Entities
 {
     //Movement
+    Vector2 playerMoveInput;
     [SerializeField] private float jumpSpeed;
     [SerializeField] private float maxVelocity;
+    [SerializeField] private float accelerationMultiplier;
+    [SerializeField] private float accelerationMultiplier1;
     private bool canJump;
-    [SerializeField] bool turned;
-
+    bool isFacingRight;
     //Attack
     public bool attackUnlocked;
     [SerializeField] private float attackCooldown;
@@ -27,22 +29,10 @@ public class Player : Entities
     // Update is called once per frame
     void Update()
     {
-        TurnChecker();
         VelocityLimiter();
         Movement();
         Jump();
         AttackCheck();
-    }
-    void TurnChecker()
-    {
-        if (rb.velocity.x < 0)
-        {
-            turned = true;
-        }
-        else if (rb.velocity.x > 0)
-        {
-            turned = false;
-        }
     }
     private void VelocityLimiter()
     {
@@ -57,16 +47,45 @@ public class Player : Entities
     }
     private void Movement()
     {
-        if (Input.GetKey(KeyCode.D))
+        playerMoveInput.x = Input.GetAxisRaw("Horizontal");
+        Debug.Log(playerMoveInput.x);
+        if (playerMoveInput.x != 0)
         {
-            rb.AddForce(Vector2.right * movementSpeed * Time.deltaTime);
-        }
-        if (Input.GetKey(KeyCode.A))
-        {
-            rb.AddForce(Vector2.left * movementSpeed * Time.deltaTime);
-        }
-    }
+            CheckDirectionToFace(playerMoveInput.x > 0);
 
+        }
+
+        float targetSpeed = playerMoveInput.x * maxVelocity;
+
+        float acceleration = (Mathf.Abs(targetSpeed) > 0.01 ? accelerationMultiplier : accelerationMultiplier1);
+
+        float speedDif = targetSpeed - rb.velocity.x;
+
+        float movement = speedDif * acceleration;
+
+        rb.AddForce(movement * Vector2.right, ForceMode2D.Force);
+        //if (Input.GetKey(KeyCode.D))
+        //{
+        //    rb.AddForce(Vector2.right * movementSpeed * Time.deltaTime);
+        //}
+        //if (Input.GetKey(KeyCode.A))
+        //{
+        //    rb.AddForce(Vector2.left * movementSpeed * Time.deltaTime);
+        //}
+    }
+    void CheckDirectionToFace(bool isMovingRight)
+    {
+        if (isMovingRight != isFacingRight)
+            Turn();
+    }
+    private void Turn()
+    {
+        Vector3 scale = transform.localScale;
+        scale.x *= -1;
+        transform.localScale = scale;
+
+        isFacingRight = !isFacingRight;
+    }
     private void Jump()
     {
         if (Input.GetKey(KeyCode.Space) && canJump)
@@ -92,11 +111,15 @@ public class Player : Entities
             return;
         }
         weaponGO.SetActive(true);
-        if (turned)
+        if (attacking) 
+        {
+            return;
+        }
+        if (!isFacingRight)
         {
             weaponGO.transform.eulerAngles = new Vector3(0, 0, -288);
         }
-        else if (!turned)
+        else if (isFacingRight)
         {
             weaponGO.transform.eulerAngles = new Vector3(0, 0, -80);
 
@@ -110,15 +133,19 @@ public class Player : Entities
     IEnumerator Attack()
     {
         canAttack = false;
-        if (turned)
+        attacking = true;
+        if (!isFacingRight)
         {
+            Debug.Log(isFacingRight);
             attackAnimator.Play("AttackLeft");
         }
         else
         {
-            attackAnimator.Play("AttackRight");
+            Debug.Log(isFacingRight);
+            attackAnimator.Play("AttackLeft");
         }
         yield return new WaitForSeconds(attackCooldown);
         canAttack = true;
+        attacking = false;
     }
 }

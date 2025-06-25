@@ -2060,7 +2060,8 @@ MonoBehaviour:
   lootObject: {fileID: 0}
   jumpSpeed: 1000
   maxVelocity: 10
-  turned: 0
+  accelerationMultiplier: 10
+  accelerationMultiplier1: 10
   attackUnlocked: 0
   attackCooldown: 1
   weaponGO: {fileID: 1372140972}

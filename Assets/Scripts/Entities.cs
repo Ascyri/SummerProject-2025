@@ -16,6 +16,7 @@ public class Entities : MonoBehaviour
 
     [SerializeField] protected Rigidbody2D rb;
     protected bool canAttack = true;
+    protected bool attacking = false;
 
     [SerializeField]GameObject lootObject;
 
