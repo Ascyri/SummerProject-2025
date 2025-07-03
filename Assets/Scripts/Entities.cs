@@ -5,6 +5,7 @@ using UnityEngine;
 public class Entities : MonoBehaviour
 {
     [SerializeField] protected float movementSpeed;
+    [SerializeField] protected float defaultGravityScale;
 
     [SerializeField] protected int maxhealth;
     [SerializeField] protected int currenthealth;
@@ -24,6 +25,10 @@ public class Entities : MonoBehaviour
     void Start()
     {
         currenthealth = maxhealth;
+    }
+
+    private void Update()
+    {
     }
 
     

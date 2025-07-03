@@ -21,8 +21,10 @@ public class Enemy : Entities
     }
     void DetectPlayer()
     {
-
+        
 
     }
+
+    
 
 }
