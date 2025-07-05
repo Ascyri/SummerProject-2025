@@ -10,16 +10,14 @@ public class Player : Entities
     [SerializeField] private float maxVelocity;
     [SerializeField] private float accelerationMultiplier;
     [SerializeField] private float accelerationMultiplier1;
-    [SerializeField] private float jumpingGravityMultiplier;
     [SerializeField] private float stopJumpGravityMultiplier;
     [SerializeField] private float fallGravityMultiplier;
-    [SerializeField] private float maxFastFallSpeed;
     [SerializeField] private float maxFallSpeed;
     bool jumping;
     bool doubleJumpUnlocked;
-    bool stoppedJumping;
-    private bool canJump;
-    bool canJumpAgain;
+    public bool stoppedJumping;
+    public bool canJump;
+    public bool canJumpAgain;
     bool isFacingRight;
     bool delayTurn = false;
     //Attack
@@ -27,6 +25,7 @@ public class Player : Entities
     [SerializeField] private float attackCooldown;
     [SerializeField] GameObject weaponGO;
     [SerializeField] private Animator attackAnimator;
+    [SerializeField] float animationDelay;
 
     public int currencyHeld;
 
@@ -44,6 +43,7 @@ public class Player : Entities
         Jump();
         AttackCheck();
         Gravity();
+
     }
     private void VelocityLimiter()
     {
@@ -108,7 +108,6 @@ public class Player : Entities
     {
         if (isMovingRight != isFacingRight)
             Turn();
-            //StartCoroutine(Turn());
     }
     private void Turn()
     {
@@ -116,7 +115,6 @@ public class Player : Entities
         {
             delayTurn = true;
             return;
-            //yield return new WaitForSeconds(attackCooldown);
         }
         Vector3 scale = transform.localScale;
         scale.x *= -1;
@@ -153,15 +151,15 @@ public class Player : Entities
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.tag == "Floor")
-        {
-            canJump = true;
-            canJumpAgain = true;
-            stoppedJumping = false;
-        }
-    }
+    //private void OnCollisionTrigger2D(Collision2D collision)
+    //{
+    //    if (collision.gameObject.tag == "Floor")
+    //    {
+    //        canJump = true;
+    //        canJumpAgain = true;
+    //        stoppedJumping = false;
+    //    }
+    //}
 
     public void AttackCheck()
     {
@@ -170,7 +168,7 @@ public class Player : Entities
             return;
         }
         weaponGO.SetActive(true);
-        if (canAttack) 
+        if (!canAttack) 
         {
             return;
         }
@@ -195,21 +193,22 @@ public class Player : Entities
         attacking = true;
         if (!isFacingRight)
         {
-            Debug.Log(isFacingRight);
             attackAnimator.Play("AttackLeft");
         }
         else
         {
-            Debug.Log(isFacingRight);
             attackAnimator.Play("AttackLeft");
         }
+        yield return new WaitForSeconds(animationDelay);
         if (delayTurn)
         {
             delayTurn = false;
             Turn();
             attacking = false;
         }
-        yield return new WaitForSeconds(attackCooldown);
+        yield return new WaitForSeconds(attackCooldown); 
+        
         canAttack = true;
+
     }
 }
