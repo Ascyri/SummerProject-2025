@@ -15,7 +15,7 @@ public class Crawler : Enemy
         if (collision.tag == "Weapon")
         {
             weaponScript = collision.GetComponent<Weapon>();
-            StartCoroutine(TakeDamage(weaponScript.playerWeaponDamage, dropAmount));
+            StartCoroutine(TakeDamage(weaponScript.playerWeaponDamage, dropAmount, collision.transform.position, weaponScript.playerWeaponKnockback));
         }
     }
 }

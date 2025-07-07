@@ -21,20 +21,16 @@ public class Entities : MonoBehaviour
 
     [SerializeField]GameObject lootObject;
 
+    protected bool player;
     float timeToWait;
-    void Start()
-    {
-        currenthealth = maxhealth;
-    }
-
+   
     private void Update()
     {
     }
 
     
-    protected IEnumerator TakeDamage(int damageAmount, int currencyDropped)
+    protected IEnumerator TakeDamage(int damageAmount, int currencyDropped, Vector2 knockbackOrigin, float knockbackAmount)
     {
-        Debug.Log(gameObject.name +" Took damage");
         canTakeDamage = false;
         currenthealth -= damageAmount;
 
@@ -45,6 +41,7 @@ public class Entities : MonoBehaviour
         }
         else
         {
+            ApplyKnockback(knockbackOrigin, knockbackAmount);
             for (int timeFlashed = 0; timeFlashed < 2; timeFlashed++)
             {
                 //enemySR.color = damageFlashColor;
@@ -70,18 +67,35 @@ public class Entities : MonoBehaviour
             //}
 
         }
-
+        Debug.Log(currenthealth);
         canTakeDamage = true;
     }
     IEnumerator Wait()
     {
         yield return new WaitForSeconds(timeToWait);
     }
+    public void ApplyKnockback(Vector2 knockbackOrigin, float knockbackAmount)
+    {
+        Vector2 direction;
+        direction = new Vector2(knockbackOrigin.x - transform.position.x, knockbackOrigin.y - transform.position.y);
 
+        rb.AddForce(direction * knockbackAmount, ForceMode2D.Impulse);
+    }
     protected void Death(int currencyDropped)
     {
+        
         DropItem(currencyDropped);
-        Destroy(gameObject);
+
+        if (player)
+        {
+            GetComponent<Player>().Respawn();
+            
+        }
+        else
+        {
+            Destroy(gameObject);
+
+        }
 
     }
     protected void DropItem(int currencyDropped)

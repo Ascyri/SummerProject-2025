@@ -27,10 +27,14 @@ public class Player : Entities
     [SerializeField] private Animator attackAnimator;
     [SerializeField] float animationDelay;
 
+
     public int currencyHeld;
 
+    public RespawnPoint latestRespawnPoint;
     void Start()
     {
+        currenthealth = maxhealth;
+        player = true;
         base.rb = GetComponent<Rigidbody2D>();
         //attackAnimator = GetComponentInChildren<Animator>();
     }
@@ -211,4 +215,19 @@ public class Player : Entities
         canAttack = true;
 
     }
+    
+    public void InitiateTakeDamage(int damage, Vector2 knockbackOrigin, float knockbackAmount)
+    {
+        StartCoroutine(TakeDamage(damage, currencyHeld, knockbackOrigin, knockbackAmount));
+    }
+
+    
+    public void Respawn()
+    {
+        transform.position = latestRespawnPoint.transform.position;
+        currencyHeld = 0;
+        currenthealth = maxhealth;
+    }
+    
+
 }
