@@ -21,9 +21,13 @@ public class Entities : MonoBehaviour
 
     [SerializeField]GameObject lootObject;
 
-    protected bool player;
+    protected bool isPlayer;
     float timeToWait;
-   
+
+    [SerializeField] protected int timesFlashedInvincibility;
+    [SerializeField] protected float flashDelay;
+
+    protected Player playerScript;
     private void Update()
     {
     }
@@ -42,17 +46,17 @@ public class Entities : MonoBehaviour
         else
         {
             ApplyKnockback(knockbackOrigin, knockbackPoint, knockbackAmount);
-            for (int timeFlashed = 0; timeFlashed < 2; timeFlashed++)
+            for (timesFlashedInvincibility = 0; timesFlashedInvincibility < 2; timesFlashedInvincibility++)
             {
                 //enemySR.color = damageFlashColor;
                 spriteRenderer.color = damagedColor;
-                timeToWait = 0.1f;
+                timeToWait = flashDelay;
                 yield return StartCoroutine(Wait());
                 spriteRenderer.color = normalColor;
-                timeToWait = 0.1f;
+                timeToWait = flashDelay;
                 yield return StartCoroutine(Wait()); 
                 spriteRenderer.color = damagedColor;
-                timeToWait = 0.1f;
+                timeToWait = flashDelay;
                 yield return StartCoroutine(Wait());
                 spriteRenderer.color = normalColor;
                 //StartCoroutine(DamageFlash());
@@ -75,9 +79,9 @@ public class Entities : MonoBehaviour
     }
     public void ApplyKnockback(Vector2 knockbackOrigin, Vector2 knockbackPoint, float knockbackAmount)
     {
-        Vector2 direction;
-
-        direction = new Vector2(Mathf.Abs(knockbackPoint.x) - Mathf.Abs(knockbackOrigin.x), 0.1f);
+        Vector2 direction = new Vector2((Mathf.Abs(knockbackPoint.x) - Mathf.Abs(knockbackOrigin.x)), 0f).normalized;
+        
+        direction = new Vector2(direction.x, 0.1f);
         
 
         rb.AddForce(direction * knockbackAmount, ForceMode2D.Impulse);
@@ -89,7 +93,7 @@ public class Entities : MonoBehaviour
         
         DropItem(currencyDropped);
 
-        if (player)
+        if (isPlayer)
         {
             GetComponent<Player>().Respawn();
             

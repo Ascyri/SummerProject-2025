@@ -34,7 +34,7 @@ public class Player : Entities
     void Start()
     {
         currenthealth = maxhealth;
-        player = true;
+        isPlayer = true;
         base.rb = GetComponent<Rigidbody2D>();
         //attackAnimator = GetComponentInChildren<Animator>();
     }
@@ -224,7 +224,7 @@ public class Player : Entities
     {
         StartCoroutine(TakeDamage(damage, currencyHeld, knockbackOrigin, knockbackPoint, knockbackAmount));
     }
-
+    
     
     public void Respawn()
     {

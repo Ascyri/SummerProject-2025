@@ -6,7 +6,10 @@ public class Enemy : Entities
 {
     //[SerializeField] float damageTime;
     [SerializeField] protected int dropAmount;
+    [SerializeField] protected int attackDamage;
+    [SerializeField] protected int knockbackAmount;
     SpriteRenderer enemySR;
+
     //[SerializeField] Color normalColor;
     //[SerializeField] Color damageFlashColor;
     //[SerializeField] float damageFlashIntervals;
@@ -24,7 +27,24 @@ public class Enemy : Entities
         
 
     }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Player")
+        {
+            playerScript = collision.gameObject.GetComponent<Player>();
 
-    
+            playerScript.InitiateTakeDamage(attackDamage, collision.GetContact(0).point, collision.transform.position, knockbackAmount);
+            
+        }
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "Weapon")
+        {
+            weaponScript = collision.GetComponent<Weapon>();
+            StartCoroutine(TakeDamage(weaponScript.playerWeaponDamage, dropAmount, collision.transform.position, transform.position, weaponScript.playerWeaponKnockback));
+        }
+    }
+
 
 }

@@ -14,7 +14,7 @@ public class Spike : MonoBehaviour
             player = collision.gameObject.GetComponent<Player>();
 
             player.InitiateTakeDamage(spikeDamage, collision.GetContact(0).point, collision.transform.position, knockbackAmount);
-            //player.InitiateTakeDamage(spikeDamage, transform.position, knockbackAmount);
+            
         }
     }
 }
