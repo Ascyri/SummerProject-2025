@@ -62,6 +62,10 @@ public class Player : Entities
     }
     private void Movement()
     {
+        if (!canTakeDamage)
+        {
+            return;
+        }
         playerMoveInput.x = Input.GetAxisRaw("Horizontal");
         if (playerMoveInput.x != 0)
         {
@@ -216,9 +220,9 @@ public class Player : Entities
 
     }
     
-    public void InitiateTakeDamage(int damage, Vector2 knockbackOrigin, float knockbackAmount)
+    public void InitiateTakeDamage(int damage, Vector2 knockbackOrigin, Vector2 knockbackPoint, float knockbackAmount)
     {
-        StartCoroutine(TakeDamage(damage, currencyHeld, knockbackOrigin, knockbackAmount));
+        StartCoroutine(TakeDamage(damage, currencyHeld, knockbackOrigin, knockbackPoint, knockbackAmount));
     }
 
     

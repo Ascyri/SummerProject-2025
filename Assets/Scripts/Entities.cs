@@ -29,7 +29,7 @@ public class Entities : MonoBehaviour
     }
 
     
-    protected IEnumerator TakeDamage(int damageAmount, int currencyDropped, Vector2 knockbackOrigin, float knockbackAmount)
+    protected IEnumerator TakeDamage(int damageAmount, int currencyDropped, Vector2 knockbackOrigin, Vector2 knockbackPoint, float knockbackAmount)
     {
         canTakeDamage = false;
         currenthealth -= damageAmount;
@@ -41,7 +41,7 @@ public class Entities : MonoBehaviour
         }
         else
         {
-            ApplyKnockback(knockbackOrigin, knockbackAmount);
+            ApplyKnockback(knockbackOrigin, knockbackPoint, knockbackAmount);
             for (int timeFlashed = 0; timeFlashed < 2; timeFlashed++)
             {
                 //enemySR.color = damageFlashColor;
@@ -67,19 +67,22 @@ public class Entities : MonoBehaviour
             //}
 
         }
-        Debug.Log(currenthealth);
         canTakeDamage = true;
     }
     IEnumerator Wait()
     {
         yield return new WaitForSeconds(timeToWait);
     }
-    public void ApplyKnockback(Vector2 knockbackOrigin, float knockbackAmount)
+    public void ApplyKnockback(Vector2 knockbackOrigin, Vector2 knockbackPoint, float knockbackAmount)
     {
         Vector2 direction;
-        direction = new Vector2(knockbackOrigin.x - transform.position.x, knockbackOrigin.y - transform.position.y);
+
+        direction = new Vector2(Mathf.Abs(knockbackPoint.x) - Mathf.Abs(knockbackOrigin.x), 0.1f);
+        
 
         rb.AddForce(direction * knockbackAmount, ForceMode2D.Impulse);
+        
+
     }
     protected void Death(int currencyDropped)
     {
