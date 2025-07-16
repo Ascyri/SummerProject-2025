@@ -82,8 +82,8 @@ public class Entities : MonoBehaviour
         Vector2 direction = new Vector2((Mathf.Abs(knockbackPoint.x) - Mathf.Abs(knockbackOrigin.x)), 0f).normalized;
         
         direction = new Vector2(direction.x, 0.1f);
-        
 
+        rb.velocity = Vector2.zero;
         rb.AddForce(direction * knockbackAmount, ForceMode2D.Impulse);
         
 

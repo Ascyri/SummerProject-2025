@@ -152,7 +152,7 @@ public class Player : Entities
         {
             jumping = true;
         }
-        if (Input.GetKeyUp(KeyCode.Space) && rb.velocity.y > 0)
+        if (Input.GetKeyUp(KeyCode.Space) && rb.velocity.y > 0 || !canTakeDamage)
         {
             jumping = false;
             stoppedJumping = true;
