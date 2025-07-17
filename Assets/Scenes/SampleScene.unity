@@ -2742,13 +2742,29 @@ PrefabInstance:
       value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 3921708107699067221, guid: 48e97b93f36d50f4189d2ead75ceb50e, type: 3}
+      propertyPath: rb
+      value: 
+      objectReference: {fileID: 1666511197}
+    - target: {fileID: 3921708107699067221, guid: 48e97b93f36d50f4189d2ead75ceb50e, type: 3}
       propertyPath: dropAmount
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3921708107699067221, guid: 48e97b93f36d50f4189d2ead75ceb50e, type: 3}
+      propertyPath: flashDelay
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3921708107699067221, guid: 48e97b93f36d50f4189d2ead75ceb50e, type: 3}
+      propertyPath: lootObject
+      value: 
+      objectReference: {fileID: 914741056478417441, guid: 75519961f2ce78f4a86224e1b8cb9512, type: 3}
+    - target: {fileID: 3921708107699067221, guid: 48e97b93f36d50f4189d2ead75ceb50e, type: 3}
       propertyPath: attackDamage
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3921708107699067221, guid: 48e97b93f36d50f4189d2ead75ceb50e, type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 1666511200}
     - target: {fileID: 3921708107699067221, guid: 48e97b93f36d50f4189d2ead75ceb50e, type: 3}
       propertyPath: knockbackAmount
       value: 100
@@ -2757,7 +2773,24 @@ PrefabInstance:
       propertyPath: defaultGravityScale
       value: 4
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 3921708107699067221, guid: 48e97b93f36d50f4189d2ead75ceb50e, type: 3}
+      propertyPath: timesFlashedInvincibility
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4723918119874028992, guid: 48e97b93f36d50f4189d2ead75ceb50e, type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4723918119874028992, guid: 48e97b93f36d50f4189d2ead75ceb50e, type: 3}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4723918119874028992, guid: 48e97b93f36d50f4189d2ead75ceb50e, type: 3}
+      propertyPath: m_Color.r
+      value: 0.34901962
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 4918748186918759239, guid: 48e97b93f36d50f4189d2ead75ceb50e, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -9232,6 +9265,16 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!50 &1666511197 stripped
+Rigidbody2D:
+  m_CorrespondingSourceObject: {fileID: 574538948107266874, guid: 48e97b93f36d50f4189d2ead75ceb50e, type: 3}
+  m_PrefabInstance: {fileID: 505862111}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &1666511200 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 4723918119874028992, guid: 48e97b93f36d50f4189d2ead75ceb50e, type: 3}
+  m_PrefabInstance: {fileID: 505862111}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1672538549
 GameObject:
   m_ObjectHideFlags: 0
@@ -12134,6 +12177,14 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4958013696823837783, guid: a9fca6476a86324418b1e75523e44645, type: 3}
+      propertyPath: flashDelay
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4958013696823837783, guid: a9fca6476a86324418b1e75523e44645, type: 3}
+      propertyPath: lootObject
+      value: 
+      objectReference: {fileID: 914741056478417441, guid: 75519961f2ce78f4a86224e1b8cb9512, type: 3}
+    - target: {fileID: 4958013696823837783, guid: a9fca6476a86324418b1e75523e44645, type: 3}
       propertyPath: attackDamage
       value: 1
       objectReference: {fileID: 0}
@@ -12171,6 +12222,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4958013696823837783, guid: a9fca6476a86324418b1e75523e44645, type: 3}
       propertyPath: defaultGravityScale
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4958013696823837783, guid: a9fca6476a86324418b1e75523e44645, type: 3}
+      propertyPath: timesFlashedInvincibility
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6898870550610552817, guid: a9fca6476a86324418b1e75523e44645, type: 3}

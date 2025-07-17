@@ -132,7 +132,7 @@ public class Player : Entities
     }
     private void Jump()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && canJump)
+        if (Input.GetKeyDown(KeyCode.Space) && canJump && canTakeDamage)
         {
             float force;
             force = jumpSpeed;

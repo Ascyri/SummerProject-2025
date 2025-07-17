@@ -37,7 +37,7 @@ public class Entities : MonoBehaviour
     {
         canTakeDamage = false;
         currenthealth -= damageAmount;
-
+        Debug.Log(currenthealth);
         if (currenthealth <= 0)
         {
             Death(currencyDropped);
@@ -81,7 +81,7 @@ public class Entities : MonoBehaviour
     {
         Vector2 direction = new Vector2((Mathf.Abs(knockbackPoint.x) - Mathf.Abs(knockbackOrigin.x)), 0f).normalized;
         
-        direction = new Vector2(direction.x, 0.1f);
+        direction = new Vector2(direction.x, 0.2f);
 
         rb.velocity = Vector2.zero;
         rb.AddForce(direction * knockbackAmount, ForceMode2D.Impulse);
