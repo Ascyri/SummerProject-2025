@@ -16,6 +16,7 @@ public class Enemy : Entities
     protected Weapon weaponScript;
     
     GameObject playerObject;
+    bool isColliding = false;
     //float timeToWait;
     // Start is called before the first frame update
     void Start()
@@ -39,12 +40,18 @@ public class Enemy : Entities
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "Weapon")
+        if (collision.tag == "Weapon" && canTakeDamage)
         {
             weaponScript = collision.GetComponent<Weapon>();
             StartCoroutine(TakeDamage(weaponScript.playerWeaponDamage, dropAmount, collision.transform.position, transform.position, weaponScript.playerWeaponKnockback));
+            //StartCoroutine(ResetCollision());
         }
     }
+    //IEnumerator ResetCollision()
+    //{
+    //    yield return new WaitForEndOfFrame();
+    //    isColliding = false;
+    //}
 
 
 }
