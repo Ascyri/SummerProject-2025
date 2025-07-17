@@ -5,7 +5,7 @@ using UnityEngine;
 public class LootPickup : MonoBehaviour
 {
 
-    [SerializeField] int currencyAmount;
+    public int currencyAmount;
     float sizeMultiplier;
     
 

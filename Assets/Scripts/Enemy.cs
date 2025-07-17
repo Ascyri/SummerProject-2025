@@ -15,8 +15,6 @@ public class Enemy : Entities
     //[SerializeField] float damageFlashIntervals;
     protected Weapon weaponScript;
     
-    GameObject playerObject;
-    bool isColliding = false;
     //float timeToWait;
     // Start is called before the first frame update
     void Start()
@@ -44,14 +42,9 @@ public class Enemy : Entities
         {
             weaponScript = collision.GetComponent<Weapon>();
             StartCoroutine(TakeDamage(weaponScript.playerWeaponDamage, dropAmount, collision.transform.position, transform.position, weaponScript.playerWeaponKnockback));
-            //StartCoroutine(ResetCollision());
+
         }
     }
-    //IEnumerator ResetCollision()
-    //{
-    //    yield return new WaitForEndOfFrame();
-    //    isColliding = false;
-    //}
 
 
 }

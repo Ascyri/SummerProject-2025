@@ -37,7 +37,6 @@ public class Entities : MonoBehaviour
     {
         canTakeDamage = false;
         currenthealth -= damageAmount;
-        Debug.Log(currenthealth);
         if (currenthealth <= 0)
         {
             Death(currencyDropped);
@@ -107,7 +106,8 @@ public class Entities : MonoBehaviour
     }
     protected void DropItem(int currencyDropped)
     {
-        Instantiate(lootObject, transform.position, Quaternion.identity);
-            
+
+        GameObject loot = Instantiate(lootObject, transform.position, Quaternion.identity);
+        loot.GetComponent<LootPickup>().currencyAmount = currencyDropped;
     }
 }
