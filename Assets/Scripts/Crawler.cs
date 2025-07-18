@@ -5,10 +5,6 @@ using UnityEngine;
 public class Crawler : Enemy
 {
     
-    void Movement()
-    {
-
-    }
 
     
 }

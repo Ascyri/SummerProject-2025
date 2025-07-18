@@ -20,6 +20,7 @@ public class LootPickup : MonoBehaviour
         if (collision.tag == "Player")
         {
             collision.GetComponent<Player>().currencyHeld += currencyAmount;
+            collision.GetComponent<Player>().currencyText.SetText(collision.GetComponent<Player>().currencyHeld.ToString());
             Destroy(gameObject);
         }
     }

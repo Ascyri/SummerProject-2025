@@ -5,10 +5,13 @@ using UnityEngine;
 public class Enemy : Entities
 {
     //[SerializeField] float damageTime;
+
     [SerializeField] protected int dropAmount;
     [SerializeField] protected int attackDamage;
     [SerializeField] protected int knockbackAmount;
     SpriteRenderer enemySR;
+    bool turnedRight = true;
+    
 
     //[SerializeField] Color normalColor;
     //[SerializeField] Color damageFlashColor;
@@ -21,10 +24,22 @@ public class Enemy : Entities
     {
         currenthealth = maxhealth;
     }
-    void DetectPlayer()
+    private void Update()
     {
-        
+        Movement();
+    }
+    void Movement()
+    {   
+        if (turnedRight)
+        {
+            rb.velocity = Vector2.right * movementSpeed;
 
+        }
+        else if (!turnedRight)
+        {
+            rb.velocity = Vector2.left * movementSpeed;
+
+        }
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {

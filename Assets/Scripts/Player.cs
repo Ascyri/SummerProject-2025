@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class Player : Entities
@@ -31,11 +32,13 @@ public class Player : Entities
     public int currencyHeld;
 
     public RespawnPoint latestRespawnPoint;
+    public TextMeshProUGUI currencyText;
     void Start()
     {
         currenthealth = maxhealth;
         isPlayer = true;
         base.rb = GetComponent<Rigidbody2D>();
+        currencyText = GetComponentInChildren<TextMeshProUGUI>();
         //attackAnimator = GetComponentInChildren<Animator>();
     }
 
