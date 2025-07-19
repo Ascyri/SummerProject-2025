@@ -41,6 +41,23 @@ public class Enemy : Entities
 
         }
     }
+        
+    public void TurnEnemy()
+    {
+        Vector2 turnedScale;
+        if (turnedRight)
+        {
+            turnedRight = false;
+            turnedScale = new Vector2(transform.localScale.x, -transform.localScale.y);
+            transform.localScale = turnedScale;
+        }
+        else if (!turnedRight)
+        {
+            turnedRight = true;
+            turnedScale = new Vector2(transform.localScale.x, -transform.localScale.y);
+            transform.localScale = turnedScale;
+        }
+    }
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag == "Player")

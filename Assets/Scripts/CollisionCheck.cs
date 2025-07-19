@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class CollisionCheck : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    Enemy enemyScript;
 
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerExit2D(Collider2D collision)
     {
-        
+        // 6 = Ground
+        if (collision.gameObject.layer == 6)
+        {
+            enemyScript = GetComponentInParent<Enemy>();
+            enemyScript.TurnEnemy();
+        }
     }
 }
