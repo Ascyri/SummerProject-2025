@@ -85,23 +85,18 @@ public class Player : Entities
         float movement = speedDif * acceleration;
 
         rb.AddForce(movement * Vector2.right, ForceMode2D.Force);
-        //if (Input.GetKey(KeyCode.D))
-        //{
-        //    rb.AddForce(Vector2.right * movementSpeed * Time.deltaTime);
-        //}
-        //if (Input.GetKey(KeyCode.A))
-        //{
-        //    rb.AddForce(Vector2.left * movementSpeed * Time.deltaTime);
-        //}
+        
     }
     void Gravity()
     {
         if (stoppedJumping)
         {
+            //Cancelled jump
             SetGravityScale(defaultGravityScale * stopJumpGravityMultiplier);
         }
         else if (rb.velocity.y < 0)
         {
+            //Fall
             SetGravityScale(defaultGravityScale * fallGravityMultiplier);
         }
         else
@@ -135,22 +130,28 @@ public class Player : Entities
     }
     private void Jump()
     {
+        float force;
+        force = jumpSpeed;
+        
+
         if (Input.GetKeyDown(KeyCode.Space) && canJump && canTakeDamage)
         {
-            float force;
-            force = jumpSpeed;
+            
+            force -= rb.velocity.y;
+            
+            rb.AddForce(Vector2.up * force, ForceMode2D.Impulse);
+            canJump = false;
+        }
+        else if (Input.GetKeyDown(KeyCode.Space) && canJumpAgain)
+        {
             if (rb.velocity.y < 0)
             {
                 force -= rb.velocity.y;
             }
+            stoppedJumping = false;
             rb.AddForce(Vector2.up * force, ForceMode2D.Impulse);
-            canJump = false;
+            canJumpAgain = false;
         }
-        //else if (Input.GetKeyDown(KeyCode.Space) && canJumpAgain)
-        //{
-        //    rb.AddForce(Vector2.up * jumpSpeed * 1.5f);
-        //    canJumpAgain = false;
-        //}
         if (Input.GetKey(KeyCode.Space))
         {
             jumping = true;

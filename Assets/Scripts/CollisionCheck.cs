@@ -9,7 +9,7 @@ public class CollisionCheck : MonoBehaviour
     private void OnTriggerExit2D(Collider2D collision)
     {
         // 6 = Ground
-        if (collision.gameObject.layer == 6)
+        if (collision.gameObject.layer == 6 && GetComponentInParent<Enemy>() != null)
         {
             enemyScript = GetComponentInParent<Enemy>();
             enemyScript.TurnEnemy();

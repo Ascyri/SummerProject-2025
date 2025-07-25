@@ -19,11 +19,13 @@ public class GroundCheck : MonoBehaviour
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        //I don't know why the trigger happens but it does when i exit play mode and it needs null check
+        //I don't know why but the trigger happens when i exit play mode and it needs null check
         if (gameObject != null)
-        StartCoroutine(CoyoteTime());
+        {
+            StartCoroutine(DelayedDisable());
+        }
     }
-    IEnumerator CoyoteTime()
+    IEnumerator DelayedDisable()
     {
         yield return new WaitForSeconds(coyoteTime);
         playerScript.canJump = false;
