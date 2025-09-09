@@ -15,7 +15,7 @@ public class Player : Entities
     [SerializeField] private float fallGravityMultiplier;
     [SerializeField] private float maxFallSpeed;
     bool jumping;
-    bool doubleJumpUnlocked;
+    public bool doubleJumpUnlocked;
     public bool stoppedJumping;
     public bool canJump;
     public bool canJumpAgain;
