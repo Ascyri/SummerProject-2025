@@ -64,7 +64,7 @@ public class Enemy : Entities
         {
             playerScript = collision.gameObject.GetComponent<Player>();
 
-            playerScript.InitiateTakeDamage(attackDamage, collision.GetContact(0).point, collision.transform.position, knockbackAmount);
+            //playerScript.InitiateTakeDamage(attackDamage, collision.GetContact(0).point, collision.transform.position, knockbackAmount);
             
         }
     }

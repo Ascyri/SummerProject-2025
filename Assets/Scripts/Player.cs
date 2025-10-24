@@ -2,53 +2,63 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class Player : Entities
+public class Player : MonoBehaviour
 {
-    //Movement
+    [SerializeField] float movementSpeed;
+    [SerializeField] Rigidbody2D rb;
+    bool isFacingRight;
     Vector2 playerMoveInput;
-    [SerializeField] private float jumpSpeed;
+
     [SerializeField] private float maxVelocity;
     [SerializeField] private float accelerationMultiplier;
     [SerializeField] private float accelerationMultiplier1;
+
+    [SerializeField] GameObject memoryLand;
+    [SerializeField] GameObject memory1;
+    [SerializeField] GameObject memory2;
+    [SerializeField] GameObject memory3;
+    [SerializeField] GameObject memory4;
+    //Movement
+    [SerializeField] private float jumpSpeed;
     [SerializeField] private float stopJumpGravityMultiplier;
     [SerializeField] private float fallGravityMultiplier;
     [SerializeField] private float maxFallSpeed;
+    [SerializeField] protected float defaultGravityScale;
+    [SerializeField] private Camera mainCamera;
+    [SerializeField] private Color memoryBackgroundColor;
+    private Color memoryLandBackgroundColor;
+
     bool jumping;
-    public bool doubleJumpUnlocked;
+    //public bool doubleJumpUnlocked;
     public bool stoppedJumping;
     public bool canJump;
-    public bool canJumpAgain;
-    bool isFacingRight;
-    bool delayTurn = false;
-    //Attack
-    public bool attackUnlocked;
-    [SerializeField] private float attackCooldown;
-    [SerializeField] GameObject weaponGO;
-    [SerializeField] private Animator attackAnimator;
-    [SerializeField] float animationDelay;
+    //public bool canJumpAgain;
+    ////bool delayTurn = false;
+    ////Attack
+    //public bool attackUnlocked;
+    //[SerializeField] private float attackCooldown;
+    //[SerializeField] GameObject weaponGO;
+    //[SerializeField] private Animator attackAnimator;
+    //[SerializeField] float animationDelay;
 
-
-    public int currencyHeld;
-
-    public RespawnPoint latestRespawnPoint;
-    public TextMeshProUGUI currencyText;
     void Start()
     {
-        currenthealth = maxhealth;
-        isPlayer = true;
-        base.rb = GetComponent<Rigidbody2D>();
-        currencyText = GetComponentInChildren<TextMeshProUGUI>();
+        //    currenthealth = maxhealth;
+        //isPlayer = true;
+        rb = GetComponent<Rigidbody2D>();
+        //currencyText = GetComponentInChildren<TextMeshProUGUI>();
         //attackAnimator = GetComponentInChildren<Animator>();
+        memoryLandBackgroundColor = mainCamera.backgroundColor;
     }
 
     // Update is called once per frame
     void Update()
     {
         VelocityLimiter();
-        Movement();
         Jump();
-        AttackCheck();
+        Movement();
         Gravity();
 
     }
@@ -65,10 +75,6 @@ public class Player : Entities
     }
     private void Movement()
     {
-        if (!canTakeDamage)
-        {
-            return;
-        }
         playerMoveInput.x = Input.GetAxisRaw("Horizontal");
         if (playerMoveInput.x != 0)
         {
@@ -87,7 +93,39 @@ public class Player : Entities
         rb.AddForce(movement * Vector2.right, ForceMode2D.Force);
         
     }
-    void Gravity()
+    void SetGravityScale(float gravityScale)
+    {
+        rb.gravityScale = gravityScale;
+        rb.velocity = new Vector2(rb.velocity.x, Mathf.Max(rb.velocity.y, -maxFallSpeed));
+    }
+    void Jump()
+    {
+        float force;
+        force = jumpSpeed;
+
+
+        if (Input.GetKeyDown(KeyCode.Space) && canJump)
+        {
+
+            force -= rb.velocity.y;
+
+            rb.AddForce(Vector2.up * force, ForceMode2D.Impulse);
+            canJump = false;
+        }
+        stoppedJumping = false;
+        jumping = true;
+        if (Input.GetKeyUp(KeyCode.Space) && rb.velocity.y > 0)
+        {
+
+            jumping = false;
+            stoppedJumping = true;
+        }
+        else
+                {
+                    SetGravityScale(defaultGravityScale);
+                }
+    }
+        void Gravity()
     {
         if (stoppedJumping)
         {
@@ -105,10 +143,81 @@ public class Player : Entities
         }
     }
 
-    void SetGravityScale(float gravityScale)
+    private void OnTriggerStay2D(Collider2D collision)
     {
-        rb.gravityScale = gravityScale;
-        rb.velocity = new Vector2(rb.velocity.x, Mathf.Max(rb.velocity.y, -maxFallSpeed));
+        if (collision.tag == "Memory1")
+        {
+            if (Input.GetKey(KeyCode.E))
+            {
+                StartCoroutine(MemoryCutscene(1));
+            }
+        }
+        else if (collision.tag == "Memory2")
+        {
+            if (Input.GetKey(KeyCode.E))
+            {
+                StartCoroutine(MemoryCutscene(2));
+            }
+        }
+        else if (collision.tag == "Memory3")
+        {
+            if (Input.GetKey(KeyCode.E))
+            {
+                StartCoroutine(MemoryCutscene(3));
+            }
+        }
+        else if (collision.tag == "Memory4")
+        {
+            if (Input.GetKey(KeyCode.E))
+            {
+                StartCoroutine(MemoryCutscene(4));
+            }
+        }
+    }
+
+    IEnumerator MemoryCutscene(int memory)
+    {
+        rb.bodyType = RigidbodyType2D.Static;
+        memoryLand.SetActive(false);
+        if (memory == 1)
+        {
+            memory1.SetActive(true);
+            mainCamera.backgroundColor = memoryBackgroundColor;
+            gameObject.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
+            yield return new WaitForSecondsRealtime(3);
+            memory1.SetActive(false);
+        }
+        else if (memory == 2)
+        {
+            memory2.SetActive(true);
+            yield return new WaitForSecondsRealtime(3);
+            memory2.SetActive(false);
+
+        }
+        else if (memory == 3)
+        {
+            memory3.SetActive(true);
+            yield return new WaitForSecondsRealtime(3);
+            memory3.SetActive(false);
+
+        }
+        else if (memory == 4)
+        {
+            memory4.SetActive(true);
+            yield return new WaitForSecondsRealtime(3);
+            memory4.SetActive(false);
+
+        }
+
+        ResetMemoryLand();
+        
+    }
+    void ResetMemoryLand()
+    {
+        gameObject.transform.localScale = Vector3.one;
+        memoryLand.SetActive(true);
+        mainCamera.backgroundColor = memoryLandBackgroundColor;
+        rb.bodyType = RigidbodyType2D.Dynamic;
     }
     void CheckDirectionToFace(bool isMovingRight)
     {
@@ -117,125 +226,20 @@ public class Player : Entities
     }
     private void Turn()
     {
-        if (attacking)
-        {
-            delayTurn = true;
-            return;
-        }
         Vector3 scale = transform.localScale;
         scale.x *= -1;
         transform.localScale = scale;
 
         isFacingRight = !isFacingRight;
     }
-    private void Jump()
-    {
-        float force;
-        force = jumpSpeed;
-        
 
-        if (Input.GetKeyDown(KeyCode.Space) && canJump && canTakeDamage)
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Floor")
         {
-            
-            force -= rb.velocity.y;
-            
-            rb.AddForce(Vector2.up * force, ForceMode2D.Impulse);
-            canJump = false;
-        }
-        else if (Input.GetKeyDown(KeyCode.Space) && canJumpAgain)
-        {
-            if (rb.velocity.y < 0)
-            {
-                force -= rb.velocity.y;
-            }
+            canJump = true;
             stoppedJumping = false;
-            rb.AddForce(Vector2.up * force, ForceMode2D.Impulse);
-            canJumpAgain = false;
-        }
-        if (Input.GetKey(KeyCode.Space))
-        {
-            jumping = true;
-        }
-        if (Input.GetKeyUp(KeyCode.Space) && rb.velocity.y > 0 || !canTakeDamage)
-        {
-            jumping = false;
-            stoppedJumping = true;
         }
     }
-
-    //private void OnCollisionTrigger2D(Collision2D collision)
-    //{
-    //    if (collision.gameObject.tag == "Floor")
-    //    {
-    //        canJump = true;
-    //        canJumpAgain = true;
-    //        stoppedJumping = false;
-    //    }
-    //}
-
-    public void AttackCheck()
-    {
-        if (!attackUnlocked)
-        {
-            return;
-        }
-        weaponGO.SetActive(true);
-        if (!canAttack) 
-        {
-            return;
-        }
-        if (!isFacingRight)
-        {
-            weaponGO.transform.eulerAngles = new Vector3(0, 0, -288);
-        }
-        else if (isFacingRight)
-        {
-            weaponGO.transform.eulerAngles = new Vector3(0, 0, -80);
-
-        }
-        if (Input.GetKeyDown(KeyCode.Mouse0) && canAttack)
-        {
-            StartCoroutine(Attack());
-        }
-    }
-
-    IEnumerator Attack()
-    {
-        canAttack = false;
-        attacking = true;
-        if (!isFacingRight)
-        {
-            attackAnimator.Play("AttackLeft");
-        }
-        else
-        {
-            attackAnimator.Play("AttackLeft");
-        }
-        yield return new WaitForSeconds(animationDelay);
-        if (delayTurn)
-        {
-            delayTurn = false;
-            Turn();
-            attacking = false;
-        }
-        yield return new WaitForSeconds(attackCooldown); 
-        
-        canAttack = true;
-
-    }
-    
-    public void InitiateTakeDamage(int damage, Vector2 knockbackOrigin, Vector2 knockbackPoint, float knockbackAmount)
-    {
-        StartCoroutine(TakeDamage(damage, currencyHeld, knockbackOrigin, knockbackPoint, knockbackAmount));
-    }
-    
-    
-    public void Respawn()
-    {
-        transform.position = latestRespawnPoint.transform.position;
-        currencyHeld = 0;
-        currenthealth = maxhealth;
-    }
-    
-
 }

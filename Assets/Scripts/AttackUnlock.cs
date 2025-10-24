@@ -8,7 +8,7 @@ public class AttackUnlock : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
-            collision.gameObject.GetComponent<Player>().attackUnlocked = true;
+            //collision.gameObject.GetComponent<Player>().attackUnlocked = true;
             Destroy(gameObject);
         }
     }

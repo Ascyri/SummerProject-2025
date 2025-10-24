@@ -94,7 +94,7 @@ public class Entities : MonoBehaviour
 
         if (isPlayer)
         {
-            GetComponent<Player>().Respawn();
+            //GetComponent<Player>().Respawn();
             
         }
         else

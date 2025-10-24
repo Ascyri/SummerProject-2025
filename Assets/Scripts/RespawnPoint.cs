@@ -23,7 +23,7 @@ public class RespawnPoint : MonoBehaviour
         if (collision.tag == "Player")
         {
             ActivateRespawn();
-            collision.GetComponent<Player>().latestRespawnPoint = this;
+            //collision.GetComponent<Player>().latestRespawnPoint = this;
         }
     }
 }
