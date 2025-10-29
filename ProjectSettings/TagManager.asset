@@ -11,6 +11,13 @@ TagManager:
   - Memory2
   - Memory3
   - Memory4
+  - Ball
+  - Car
+  - Memory5
+  - Memory6
+  - Memory7
+  - Memory8
+  - Memory9
   layers:
   - Default
   - TransparentFX

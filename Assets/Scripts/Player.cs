@@ -20,16 +20,30 @@ public class Player : MonoBehaviour
     [SerializeField] GameObject memory2;
     [SerializeField] GameObject memory3;
     [SerializeField] GameObject memory4;
+    [SerializeField] GameObject memory5;
+    [SerializeField] GameObject memory6;
+    [SerializeField] GameObject memory7;
+    [SerializeField] GameObject memory8;
+    [SerializeField] GameObject memory9;
     //Movement
     [SerializeField] private float jumpSpeed;
     [SerializeField] private float stopJumpGravityMultiplier;
     [SerializeField] private float fallGravityMultiplier;
     [SerializeField] private float maxFallSpeed;
     [SerializeField] protected float defaultGravityScale;
-    [SerializeField] private Camera mainCamera;
-    [SerializeField] private Color memoryBackgroundColor;
+    public Camera mainCamera;
+    [SerializeField] private Color memory1BackgroundColor;
+    [SerializeField] private Color memory2BackgroundColor;
+    [SerializeField] private Color memory3BackgroundColor;
+    [SerializeField] private Color memory4BackgroundColor;
+    [SerializeField] private Color memory6BackgroundColor;
+    [SerializeField] private Color memory7BackgroundColor;
+    [SerializeField] private Color memory8BackgroundColor;
     private Color memoryLandBackgroundColor;
 
+    SpriteRenderer spriteRenderer;
+    [SerializeField] Color memoryColor;
+    [SerializeField] Color memoryLandColor;
     bool jumping;
     //public bool doubleJumpUnlocked;
     public bool stoppedJumping;
@@ -48,9 +62,10 @@ public class Player : MonoBehaviour
         //    currenthealth = maxhealth;
         //isPlayer = true;
         rb = GetComponent<Rigidbody2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
         //currencyText = GetComponentInChildren<TextMeshProUGUI>();
         //attackAnimator = GetComponentInChildren<Animator>();
-        memoryLandBackgroundColor = mainCamera.backgroundColor;
+        MemoryLandReset();
     }
 
     // Update is called once per frame
@@ -76,11 +91,11 @@ public class Player : MonoBehaviour
     private void Movement()
     {
         playerMoveInput.x = Input.GetAxisRaw("Horizontal");
-        if (playerMoveInput.x != 0)
-        {
-            CheckDirectionToFace(playerMoveInput.x > 0);
+        //if (playerMoveInput.x != 0)
+        //{
+        //    CheckDirectionToFace(playerMoveInput.x > 0);
 
-        }
+        //}
 
         float targetSpeed = playerMoveInput.x * maxVelocity;
 
@@ -149,89 +164,244 @@ public class Player : MonoBehaviour
         {
             if (Input.GetKey(KeyCode.E))
             {
-                StartCoroutine(MemoryCutscene(1));
+                Memory1Scene();
+                //StartCoroutine(MemoryCutscene(1));
             }
         }
         else if (collision.tag == "Memory2")
         {
             if (Input.GetKey(KeyCode.E))
             {
-                StartCoroutine(MemoryCutscene(2));
+                Memory2Scene();
+                //StartCoroutine(MemoryCutscene(2));
             }
         }
         else if (collision.tag == "Memory3")
         {
             if (Input.GetKey(KeyCode.E))
             {
-                StartCoroutine(MemoryCutscene(3));
+                Memory3Scene();
+                //StartCoroutine(MemoryCutscene(3));
             }
         }
         else if (collision.tag == "Memory4")
         {
             if (Input.GetKey(KeyCode.E))
             {
-                StartCoroutine(MemoryCutscene(4));
+                Memory4Scene();
+                //StartCoroutine(MemoryCutscene(4));
             }
         }
+        else if (collision.tag == "Memory5")
+        {
+            if (Input.GetKey(KeyCode.E))
+            {
+                Memory5Scene();
+            }
+        }
+        else if (collision.tag == "Memory6")
+        {
+            if (Input.GetKey(KeyCode.E))
+            {
+                Memory6Scene();
+            }
+        }
+        else if (collision.tag == "Memory7")
+        {
+            if (Input.GetKey(KeyCode.E))
+            {
+                Memory7Scene();
+            }
+        }
+        else if (collision.tag == "Memory8")
+        {
+            if (Input.GetKey(KeyCode.E))
+            {
+                Memory8Scene();
+            }
+        }
+        else if (collision.tag == "Memory9")
+        {
+            if (Input.GetKey(KeyCode.E))
+            {
+                Memory9Scene();
+            }
+        }
+
     }
-
-    IEnumerator MemoryCutscene(int memory)
+    public void MemoryLandReset()
     {
-        rb.bodyType = RigidbodyType2D.Static;
-        memoryLand.SetActive(false);
-        if (memory == 1)
-        {
-            memory1.SetActive(true);
-            mainCamera.backgroundColor = memoryBackgroundColor;
-            gameObject.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
-            yield return new WaitForSecondsRealtime(3);
-            memory1.SetActive(false);
-        }
-        else if (memory == 2)
-        {
-            memory2.SetActive(true);
-            yield return new WaitForSecondsRealtime(3);
-            memory2.SetActive(false);
-
-        }
-        else if (memory == 3)
-        {
-            memory3.SetActive(true);
-            yield return new WaitForSecondsRealtime(3);
-            memory3.SetActive(false);
-
-        }
-        else if (memory == 4)
-        {
-            memory4.SetActive(true);
-            yield return new WaitForSecondsRealtime(3);
-            memory4.SetActive(false);
-
-        }
-
-        ResetMemoryLand();
-        
-    }
-    void ResetMemoryLand()
-    {
-        gameObject.transform.localScale = Vector3.one;
+        memory1.SetActive(false);
+        memory2.SetActive(false);
+        memory3.SetActive(false);
+        memory4.SetActive(false);
+        memory5.SetActive(false);
+        //memory6.SetActive(false);
+        //memory7.SetActive(false);
+        //memory8.SetActive(false);
+        //memory9.SetActive(false);
         memoryLand.SetActive(true);
         mainCamera.backgroundColor = memoryLandBackgroundColor;
-        rb.bodyType = RigidbodyType2D.Dynamic;
+        mainCamera.transform.parent = transform;
+        mainCamera.transform.localPosition = new Vector3(0, 2, -10);
+        gameObject.transform.localScale = Vector3.one;
+        spriteRenderer.enabled = true;
+        spriteRenderer.color = memoryLandColor;
+        rb.constraints = RigidbodyConstraints2D.None;
+        rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+        maxVelocity = 4;
+        jumpSpeed = 10;
+        maxFallSpeed = 2;
+        defaultGravityScale = 3;
+        canJump = true;
     }
-    void CheckDirectionToFace(bool isMovingRight)
-    {
-        if (isMovingRight != isFacingRight)
-            Turn();
-    }
-    private void Turn()
-    {
-        Vector3 scale = transform.localScale;
-        scale.x *= -1;
-        transform.localScale = scale;
 
-        isFacingRight = !isFacingRight;
+    void Memory1Scene()
+    {
+        memory1.SetActive(true);
+        memoryLand.SetActive(false);
+        mainCamera.backgroundColor = memory1BackgroundColor;
+        gameObject.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+        spriteRenderer.color = memoryColor;
+        maxVelocity = 6;
+        jumpSpeed = 20;
+        maxFallSpeed = 10;
+        defaultGravityScale = 8;
+
     }
+    void Memory2Scene()
+    {
+        memory2.SetActive(true);
+        memoryLand.SetActive(false);
+        mainCamera.backgroundColor = memory2BackgroundColor;
+        gameObject.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+        spriteRenderer.color = memoryColor;
+        maxVelocity = 6;
+        canJump = false;
+
+    }
+    
+    void Memory3Scene()
+    {
+        memory3.SetActive(true);
+        memoryLand.SetActive(false);
+        mainCamera.backgroundColor = memory3BackgroundColor;
+        gameObject.transform.localScale = new Vector3(0.7f, 0.7f, 0.7f);
+        spriteRenderer.color = memoryColor;
+        maxVelocity = 3;
+        canJump = false;
+    }
+
+    void Memory4Scene()
+    {
+        memory4.SetActive(true);
+        memoryLand.SetActive(false);
+        mainCamera.backgroundColor = memory3BackgroundColor;
+        gameObject.transform.localScale = new Vector3(0.7f, 0.7f, 0.7f);
+        spriteRenderer.color = memoryColor;
+        maxVelocity = 4;
+        canJump = false;
+    }
+    void Memory5Scene()
+    {
+        memory5.SetActive(true);
+        memoryLand.SetActive(false);
+        mainCamera.backgroundColor = memory3BackgroundColor;
+        gameObject.transform.localScale = new Vector3(0.7f, 0.7f, 0.7f);
+        spriteRenderer.color = memoryColor;
+        maxVelocity = 4;
+        canJump = false;
+    }
+    void Memory6Scene()
+    {
+        memory6.SetActive(true);
+        memoryLand.SetActive(false);
+        mainCamera.backgroundColor = memory6BackgroundColor;
+        gameObject.transform.localScale = new Vector3(0.7f, 0.7f, 0.7f);
+        spriteRenderer.color = memoryColor;
+    }
+    void Memory7Scene()
+    {
+        memory7.SetActive(true);
+        memoryLand.SetActive(false);
+        mainCamera.backgroundColor = memory7BackgroundColor;
+        gameObject.transform.localScale = new Vector3(0.7f, 0.7f, 0.7f);
+        spriteRenderer.color = memoryColor;
+    }
+    void Memory8Scene()
+    {
+        memory8.SetActive(true);
+        memoryLand.SetActive(false);
+        mainCamera.backgroundColor = memory8BackgroundColor;
+        gameObject.transform.localScale = new Vector3(0.7f, 0.7f, 0.7f);
+        spriteRenderer.color = memoryColor;
+    }
+    void Memory9Scene()
+    {
+        memory9.SetActive(true);
+        memoryLand.SetActive(false);
+        mainCamera.backgroundColor = memory3BackgroundColor;
+        gameObject.transform.localScale = new Vector3(0.7f, 0.7f, 0.7f);
+        spriteRenderer.color = memoryColor;
+    }
+    //not using anymore
+    //IEnumerator MemoryCutscene(int memory)
+    //{
+    //    rb.bodyType = RigidbodyType2D.Static;
+    //    memoryLand.SetActive(false);
+    //    if (memory == 1)
+    //    {
+    //        memory1.SetActive(true);
+    //        mainCamera.backgroundColor = memory1BackgroundColor;
+    //        gameObject.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
+    //        yield return new WaitForSecondsRealtime(3);
+    //        memory1.SetActive(false);
+    //    }
+    //    else if (memory == 2)
+    //    {
+    //        memory2.SetActive(true);
+    //        yield return new WaitForSecondsRealtime(3);
+    //        memory2.SetActive(false);
+
+    //    }
+    //    else if (memory == 3)
+    //    {
+    //        memory3.SetActive(true);
+    //        yield return new WaitForSecondsRealtime(3);
+    //        memory3.SetActive(false);
+
+    //    }
+    //    else if (memory == 4)
+    //    {
+    //        memory4.SetActive(true);
+    //        yield return new WaitForSecondsRealtime(8);
+    //        memory4.SetActive(false);
+
+    //    }
+
+    //    ResetMemoryLand();
+
+    //}
+    //void ResetMemoryLand()
+    //{
+    //    gameObject.transform.localScale = Vector3.one;
+    //    memoryLand.SetActive(true);
+    //    mainCamera.backgroundColor = memoryLandBackgroundColor;
+    //    rb.bodyType = RigidbodyType2D.Dynamic;
+    //}
+    //void CheckDirectionToFace(bool isMovingRight)
+    //{
+    //    if (isMovingRight != isFacingRight)
+    //        Turn();
+    //}
+    //private void Turn()
+    //{
+    //    Vector3 scale = transform.localScale;
+    //    scale.x *= -1;
+    //    transform.localScale = scale;
+
+    //    isFacingRight = !isFacingRight;
+    //}
 
 
     private void OnCollisionEnter2D(Collision2D collision)
