@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class MemoryEnd1 : MonoBehaviour
 {
+    [SerializeField] PushObject pushBallScript;
     [SerializeField] Transform mainCamera;
     [SerializeField] float cutsceneTime;
     [SerializeField] GameObject Character2;
@@ -28,8 +29,9 @@ public class MemoryEnd1 : MonoBehaviour
         yield return new WaitForSecondsRealtime(cutsceneTime);
         ball.transform.localPosition = new Vector3(-4, 0, 0);
         player.transform.position = teleportPosition.position;
-        //mainCamera.transform.position = new Vector3(player.transform.position.x, player.transform.position.y + 2, player.transform.position.z - 10);
 
+        //mainCamera.transform.position = new Vector3(player.transform.position.x, player.transform.position.y + 2, player.transform.position.z - 10);
+        pushBallScript.resetPushAmount();
         playerScript.MemoryLandReset();
     }
 }

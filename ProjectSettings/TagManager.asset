@@ -18,6 +18,14 @@ TagManager:
   - Memory7
   - Memory8
   - Memory9
+  - ChangeRoom
+  - ChangeHome
+  - Memory10
+  - Memory11
+  - Memory12
+  - Memory13
+  - Memory14
+  - ChangeHome2
   layers:
   - Default
   - TransparentFX

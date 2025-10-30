@@ -236,10 +236,10 @@ public class Player : MonoBehaviour
         memory3.SetActive(false);
         memory4.SetActive(false);
         memory5.SetActive(false);
-        //memory6.SetActive(false);
-        //memory7.SetActive(false);
-        //memory8.SetActive(false);
-        //memory9.SetActive(false);
+        memory6.SetActive(false);
+        memory7.SetActive(false);
+        memory8.SetActive(false);
+        memory9.SetActive(false);
         memoryLand.SetActive(true);
         mainCamera.backgroundColor = memoryLandBackgroundColor;
         mainCamera.transform.parent = transform;
@@ -335,14 +335,21 @@ public class Player : MonoBehaviour
         mainCamera.backgroundColor = memory8BackgroundColor;
         gameObject.transform.localScale = new Vector3(0.7f, 0.7f, 0.7f);
         spriteRenderer.color = memoryColor;
+        maxVelocity = 2;
+        canJump = false;
     }
     void Memory9Scene()
     {
         memory9.SetActive(true);
         memoryLand.SetActive(false);
         mainCamera.backgroundColor = memory3BackgroundColor;
-        gameObject.transform.localScale = new Vector3(0.7f, 0.7f, 0.7f);
+        gameObject.transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
         spriteRenderer.color = memoryColor;
+    }
+
+    public void SetCanJumpOn()
+    {
+        canJump = true;
     }
     //not using anymore
     //IEnumerator MemoryCutscene(int memory)

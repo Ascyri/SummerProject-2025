@@ -25,6 +25,8 @@ public class MemoryEnd4 : MonoBehaviour
         yield return new WaitForSecondsRealtime(cutsceneTime);
 
         character3.enabled = false;
+        character3.gameObject.transform.localPosition = new Vector3(22.55f, -4.28f, 0);
+        character3.gameObject.transform.localRotation = Quaternion.identity;
         GetComponent<SpriteRenderer>().enabled = false;
         playerScript.gameObject.transform.position = teleportPosition.position;
         playerScript.MemoryLandReset();

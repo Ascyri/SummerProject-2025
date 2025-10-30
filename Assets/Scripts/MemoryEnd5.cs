@@ -15,7 +15,6 @@ public class MemoryEnd5 : MonoBehaviour
     [SerializeField] GameObject character3;
     Player playerScript;
     float time1 = 2;
-    float time2 = 5;
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == "Player")
